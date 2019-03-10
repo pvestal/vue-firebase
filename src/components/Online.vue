@@ -55,10 +55,10 @@
         name: 'online',
         computed: {
             users() {
-                return this.$store.state.users;
+                return this.$store.getters.getUsers;
             },
             totalOnline() {
-                return this.$store.getters.getNumberUsersOnline;
+                return this.$store.getters.getOnlineUsers.length;
             }
         },
         methods: {

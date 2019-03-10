@@ -22,5 +22,24 @@ export default new Vuex.Store({
       state.users.push(state.currentUser);
     }
   },
-  actions: {}
+  actions: {},
+  getters: {
+    getUsers (state) {
+      return state.users.sort((userA, userB) => {
+        return userA.displayName > userB.displayName;
+      });
+    },
+    getOnlineUsers (state, getters) {
+      return getters.getUsers.online = true;
+    },
+    getUser (state) {
+      return (userId) => {
+        return state.users.find((user) => {
+          return user.uid === userId;  
+        });
+      };
+    }
+    
+  }
+  
 });
