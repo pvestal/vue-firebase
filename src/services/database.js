@@ -3,12 +3,12 @@ import firebase from 'firebase';
 
 
 var config = {
-    apiKey: "API",
-    authDomain: "DOMAIN.firebaseapp.com",
-    databaseURL: "https://DOMAIN.firebaseio.com",
-    projectId: "PROJECTID",
-    storageBucket: "DOMAIN.appspot.com",
-    messagingSenderId: "ID"
+    apiKey: "AIzaSyDeVkqwOutsFttc0quhvbnLMp8vP_ZFhw8",
+    authDomain: "this-auth.firebaseapp.com",
+    databaseURL: "https://this-auth.firebaseio.com",
+    projectId: "this-auth",
+    storageBucket: "this-auth.appspot.com",
+    messagingSenderId: "242372664859"
 };
 
 const database = firebase.initializeApp(config);
@@ -17,7 +17,7 @@ database.signUp = async(email, password) => {
     try {
         await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-        store.commit('setCurrentUser', firebase.auth().currentUser);
+        store.commit('SET_CURRENT_USER', firebase.auth().currentUser);
 
         return true;
     }
@@ -30,7 +30,7 @@ database.signIn = async(email, password) => {
     try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
 
-        store.commit('setCurrentUser', firebase.auth().currentUser);
+        store.commit('SET_CURRENT_USER', firebase.auth().currentUser);
 
         return true;
 
@@ -44,7 +44,7 @@ database.signOut = async() => {
     try {
         await firebase.auth().signOut();
 
-        store.commit('setCurrentUser', null);
+        store.commit('SET_CURRENT_USER', null);
 
         return true;
     }
