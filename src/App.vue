@@ -4,9 +4,10 @@
       <router-link to="/">Home</router-link> |
       <template v-if="!currentUser">
         <router-link to="/signup">SignUp</router-link> |
-        <router-link to="/signin">SignIn</router-link>
+        <router-link to="/signin">SignIn</router-link> |
       </template>
       <template v-else>
+        <router-link to="/online">Users Online</router-link> |
         <a @click="signOut">Sign Out</a>
       </template>
     </div>
@@ -16,8 +17,9 @@
 
 <script>
 import database from '@/services/database';
+// import HelloWorld from './components/HelloWorld'
 
-  export default {
+export default {
     computed: {
       currentUser() {
         return this.$store.state.currentUser;
@@ -29,7 +31,7 @@ import database from '@/services/database';
         this.$router.push('/signin');
       }
     }
-  };
+};
 </script>
 
 <style>

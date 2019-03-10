@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import SignUp from "./views/SignUp.vue";
 import SignIn from "./views/SignIn.vue";
 import Profile from "./views/Profile.vue";
+import Online from "@/components/Online.vue";
 import store from "@/store";
 
 Vue.use(Router);
@@ -26,6 +27,11 @@ let router = new Router({
       path: "/signin",
       name: "signin",
       component: SignIn
+    },
+    {
+      path: "/online",
+      name: "online",
+      component: Online
     },
     {
       path: "/profile",
