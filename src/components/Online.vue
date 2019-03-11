@@ -58,7 +58,7 @@
                 return this.$store.getters.getUsers;
             },
             totalOnline() {
-                return this.$store.getters.getOnlineUsers.length;
+                return this.$store.getters.getOnlineUsersLength;
             }
         },
         methods: {

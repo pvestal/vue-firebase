@@ -20,6 +20,7 @@ export default new Vuex.Store({
     SET_CURRENT_USER (state, payload) {
       state.currentUser = payload;
       state.users.push(state.currentUser);
+      state.currentUser.displayName = "You!";
     }
   },
   actions: {},
@@ -32,12 +33,18 @@ export default new Vuex.Store({
     getOnlineUsers (state, getters) {
       return getters.getUsers.online = true;
     },
+    getOnlineUsersLength (state, getters) {
+      return getters.getOnlineUsers.length;
+    },
     getUser (state) {
       return (userId) => {
         return state.users.find((user) => {
           return user.uid === userId;  
         });
       };
+    },
+    getUserById: state => uid => {
+      return state.users.find(user => user.uid === uid);
     }
     
   }
