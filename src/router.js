@@ -5,14 +5,43 @@ import SignUp from "./views/SignUp.vue";
 import SignIn from "./views/SignIn.vue";
 import Profile from "./views/Profile.vue";
 import Online from "@/components/Online.vue";
+import Login from '@/components/Login'
+import Dashboard from '@/components/Dashboard'
+import Settings from '@/components/Settings'
+import firebase from 'firebase'
 import store from "@/store";
 
 Vue.use(Router);
 
-let router = new Router({
+const router = new Router({
   mode: "history",
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
   routes: [
+    {
+      path: '*', 
+      redirect: '/dashboard'
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
+      meta: {
+          requiresAuth: true
+      }
+    },
+    {
+      path: '/settings',
+      name: 'Settings',
+      component: Settings,
+      meta: {
+          requiresAuth: true
+      }
+    },
     {
       path: "/",
       name: "home",
@@ -38,29 +67,37 @@ let router = new Router({
       name: "profile",
       component: Profile,
       meta: {
-        auth: true
+        requiresAuth: true
       }
     },
     {
       path: "/about",
       name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.meta.auth && !store.state.currentUser) {
-    next({
-      path: '/signin'
-    })
-  } else {
-    next()
-  }
-});
+    const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
+    const currentUser = firebase.auth().currentUser
+
+    if (requiresAuth && !currentUser) {
+        next('/login')
+    } else if (requiresAuth && currentUser) {
+        next()
+    } else {
+        next()
+    }
+})
+
+// router.beforeEach((to, from, next) => {
+//   if(to.meta.requiresAuth && !store.state.currentUser) {
+//     next({
+//       path: '/login'
+//     })
+//   } else {
+//     next()
+//   }
+// });
 
 export default router

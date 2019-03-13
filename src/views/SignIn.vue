@@ -1,7 +1,7 @@
 <template>
     <div id="app">
   <v-app id="inspire">
-    <v-content>
+    <v-content >
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
@@ -18,6 +18,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
+                <v-btn @click.stop="googleSignIn">Google</v-btn>
                 <v-btn color="primary" @click.stop="signIn">Login</v-btn>
               </v-card-actions>
             </v-card>
@@ -44,13 +45,25 @@ import database from '@/services/database';
           return {
               email: '',
               password: '',
-              error: ''
-          }
+              error: '',
+              google: false,
+          };
+      },
+      components: {
       },
       methods:  {
           async signIn () {
               let result = await database.signIn(this.email, this.password);
               
+              if (result.message) {
+                  this.error = result.message;
+              } else {
+                  console.log('User is signed in.');
+                  this.$router.push('/profile');
+              }
+          },
+          async googleSignIn() {
+            let result = await database.googleLogin();
               if (result.message) {
                   this.error = result.message;
               } else {

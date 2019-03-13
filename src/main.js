@@ -3,10 +3,12 @@ import './plugins/vuetify'
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import firebase from 'firebase';
+const fb = require('./firebaseConfig.js')
 
 Vue.config.productionTip = true;
+Vue.config.devTools = true;
 
+// handle page reloads
 let app;
 
 const initialize = () => {
@@ -20,7 +22,7 @@ const initialize = () => {
 
 };
 
-firebase.auth().onAuthStateChanged(user => {
+fb.auth().onAuthStateChanged(user => {
   if (user) {
     store.commit('setCurrentUser', user);
   } else {

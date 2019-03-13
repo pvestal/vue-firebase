@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 Vue.config.productionTip = true;
+Vue.config.devTools = true;
 
 export default new Vuex.Store({
   state: {
@@ -16,19 +17,12 @@ export default new Vuex.Store({
       
     ]
   },
-  mutations: {
-    SET_CURRENT_USER (state, payload) {
-      state.currentUser = payload;
-      state.users.push(state.currentUser);
-      state.currentUser.displayName = "You!";
-    }
-  },
-  actions: {},
   getters: {
     getUsers (state) {
-      return state.users.sort((userA, userB) => {
-        return userA.displayName > userB.displayName;
-      });
+      // return state.users.sort((userA, userB) => {
+      //   return userA.displayName > userB.displayName;
+      // });
+      return state.users;
     },
     getOnlineUsers (state, getters) {
       return getters.getUsers.online = true;
@@ -47,6 +41,26 @@ export default new Vuex.Store({
       return state.users.find(user => user.uid === uid);
     }
     
-  }
+  },
+  mutations: {
+    SET_CURRENT_USER (state, payload) {
+      state.currentUser = payload;
+      state.currentUser.online = true;
+      state.users.push(state.currentUser);
+    },
+    ADD_TO_FIREBASE(state, userId) {
+      const date = new Date;
+      const user = state.currentUser;
+      user.online = true;
+      const registration = {
+        uid: userId,
+        displayName: user.displayName,
+        date: date.getMonth() + '/' + date.getDay()
+      };
+      state.users.push(registration);
+    }
+  },
+  actions: {},
+
   
 });
